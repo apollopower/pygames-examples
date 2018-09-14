@@ -1,27 +1,70 @@
-import pygame
+# Import Pygame modele:
+import pygame, sys
 
-def main():
+#import some useful constants
+from pygame.locals import *
+
+#init the pygame module:
+pygame.init()
+
+# Constants representing different resources:
+
+DIRT = 0
+GRASS = 1
+WATER = 2
+COAL = 3
+ROCK = 4
+LAVA = 5
+
+# A list representing a tilemap:
+tilemap = [
+    [GRASS, COAL, ROCK, LAVA,  DIRT],
+    [WATER, WATER, GRASS, ROCK, ROCK],
+    [COAL, GRASS, WATER, GRASS, DIRT],
+    [DIRT, GRASS, COAL, LAVA, LAVA],
+    [GRASS, WATER, DIRT, ROCK, COAL]
+]
+
+
+# A dictionary linking resources to textures:
+textures = {
+    DIRT: pygame.image.load("resources/dirt.png"),
+    GRASS: pygame.image.load("resources/grass.png"),
+    WATER: pygame.image.load("resources/water.png"),
+    COAL: pygame.image.load("resources/coal.png"),
+    ROCK: pygame.image.load("resources/rock.png"),
+    LAVA: pygame.image.load("resources/lava.png")
+}
+
+
+# Game Dimensions:
+TILESIZE = 40
+MAPWIDTH = 5
+MAPHEIGHT = 5
+
+# Create a new drawing surface, width=300 height=300
+DISPLAYSURF = pygame.display.set_mode((MAPWIDTH * TILESIZE, MAPHEIGHT * TILESIZE), )
+
+# Give the window a caption:
+pygame.display.set_caption("Python Game")
+
+# Loop for game:
+while True:
+    # Get all the user events;
+    for event in pygame.event.get():
+        # If user presses close window button:
+        if event.type == QUIT:
+            # End game
+            pygame.quit()
+            sys.exit()
     
-    # Initialize pygame module:
-    pygame.init()
-    # load window:
-    pygame.display.set_caption("Test")
+    # End of event checker:
 
-    # Creating a surface on screen with size 800x600
-    screen = pygame.display.set_mode((800,600))
+    # Draw out tilemap:
+    for row in range(MAPHEIGHT):
+        for column in range(MAPWIDTH):
+            # Draw the resource at that position in the tilemap
+            DISPLAYSURF.blit(textures[tilemap[row][column]], (column * TILESIZE, row * TILESIZE))
 
-    running = True
-
-    # Main loop:
-    while running:
-        # Even handling eventqueue:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                # Change value to false, exit main loop
-                running = False
-    
-# Run the main function if module is executed as main script:
-
-if __name__ == "__main__":
-    # Call main function:
-    main()
+    # update the display:
+    pygame.display.update()
