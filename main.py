@@ -106,16 +106,11 @@ for rw in range(MAPHEIGHT):
 
 # _________________________________________________________
 
-# Cloud starting X Position on screen:
-cloud1X = -200
-cloud1Y = 0
-
-cloud2X = -250
-cloud2Y = random.randint(0, MAPHEIGHT*TILESIZE)
-
-cloud3X = -350
-cloud3Y = random.randint(0, MAPHEIGHT*TILESIZE)
-
+cloudList = [
+    [-200, random.randint(0, MAPHEIGHT*TILESIZE)],
+    [-400, random.randint(0, MAPHEIGHT*TILESIZE)],
+    [-700, random.randint(0, MAPHEIGHT*TILESIZE)]
+]
 
 # __________________________________________________________
 # GAME
@@ -185,24 +180,13 @@ while True:
             DISPLAYSURF.blit(textures[tilemap[row][column]], (column * TILESIZE, row * TILESIZE))
     
     # Display Cloud, moving it slightly each frame:
- 
-    DISPLAYSURF.blit(textures[CLOUD].convert_alpha(), (cloud1X, cloud1Y))
-    cloud1X += 1
-    if cloud1X > MAPWIDTH*TILESIZE:
-        cloud1X = -200
-        cloud1Y = random.randint(0,MAPHEIGHT*TILESIZE)
-    
-    DISPLAYSURF.blit(textures[CLOUD].convert_alpha(), (cloud2X, cloud2Y))
-    cloud2X += 1
-    if cloud2X > MAPWIDTH*TILESIZE:
-        cloud2X = -200
-        cloud2Y = random.randint(0,MAPHEIGHT*TILESIZE)
 
-    DISPLAYSURF.blit(textures[CLOUD].convert_alpha(), (cloud3X, cloud3Y))
-    cloud3X += 1
-    if cloud3X > MAPWIDTH*TILESIZE:
-        cloud3X = -200
-        cloud3Y = random.randint(0,MAPHEIGHT*TILESIZE)
+    for cloud in cloudList:
+        DISPLAYSURF.blit(textures[CLOUD].convert_alpha(), (cloud[0], cloud[1]))
+        cloud[0] += 1
+        if cloud[0] > MAPWIDTH*TILESIZE:
+            cloud[0] = random.randint(-1000,-200)
+            cloud[1] = random.randint(0,MAPHEIGHT*TILESIZE)
 
     
     # Display Inventory (starting 10 pixels in):
